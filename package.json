@@ -21,6 +21,8 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
+    "@types/cryptojs": "^3.1.33",
+    "cryptojs": "^2.5.3",
     "peerjs": "^1.5.5",
     "tailwindcss": "^4.3.3",
     "uuid": "^14.0.2"

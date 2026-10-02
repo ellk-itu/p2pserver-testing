@@ -1,12 +1,17 @@
 <script lang="ts">
     import Peer from "peerjs";
     import { v7 } from "uuid";
+    import { SHA256 } from "cryptojs";
 
     let formFields = $state({
         domain: "localhost:6969",
         username: v7(),
         password: "password",
     });
+
+    let user = $derived(
+        SHA256(formFields.username + ":" + formFields.password),
+    );
 
     let messages: { timeStamp: string; message: string }[] = $state([]);
 
@@ -23,7 +28,7 @@
     const submit = () => {
         const [host, port] = formFields.domain.split(":");
 
-        peer = new Peer(formFields.username, {
+        peer = new Peer(user, {
             host,
             port: parseInt(port),
             path: "/peerjs",
@@ -37,10 +42,7 @@
 
         peer.on("connection", (p) => {
             addMessage(`Connected to peer: ${p.peer}</i>`);
-        });
-
-        peer.on("connection", (p) => {
-            addMessage(`Connected to peer: ${p.peer}</i>`);
+            p.send(user);
         });
     };
 </script>
