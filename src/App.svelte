@@ -1,7 +1,7 @@
 <script lang="ts">
     import Peer from "peerjs";
     import { v7 } from "uuid";
-    import { SHA256 } from "cryptojs";
+    import { SHA256 } from "crypto-js";
 
     let formFields = $state({
         domain: "localhost:6969",
@@ -10,7 +10,7 @@
     });
 
     let user = $derived(
-        SHA256(formFields.username + ":" + formFields.password),
+        SHA256(formFields.username + ":" + formFields.password).toString(),
     );
 
     let messages: { timeStamp: string; message: string }[] = $state([]);
